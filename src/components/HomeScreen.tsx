@@ -2,6 +2,7 @@ import type { ID, Session } from '../lib/types'
 import { useApp, uid, todayISO } from '../lib/store'
 import { fmtDate, summarizeSets } from '../lib/stats'
 import { EmptyState } from './common'
+import { IconPlus, IconArrowLeft, IconDumbbell, IconHistory, IconChevron } from './Icons'
 
 export function HomeScreen({
   onStart,
@@ -34,12 +35,13 @@ export function HomeScreen({
           <button className="btn primary sm" onClick={onStart}>Resume</button>
         </div>
       ) : (
-        <div className="row" style={{ gap: 10 }}>
-          <button className="btn primary big grow" onClick={onChooseRoutine}>Start workout</button>
-        </div>
-      )}
-      {!myDraft && (
-        <button className="btn ghost" onClick={startEmpty}>or start an empty workout</button>
+        <>
+          <button className="hero-start" onClick={onChooseRoutine}>
+            <span className="lead">Start workout</span>
+            <span className="tail"><IconPlus size={22} /></span>
+          </button>
+          <button className="btn ghost sm" onClick={startEmpty} style={{ alignSelf: 'center' }}>or start empty</button>
+        </>
       )}
 
       <div className="stat-row">
@@ -57,7 +59,7 @@ export function HomeScreen({
 
       <div className="section-title">Recent sessions</div>
       {recent.length === 0 ? (
-        <EmptyState icon="🏋️" title="No workouts yet" sub="Tap Start workout to log your first session." />
+        <EmptyState icon={<IconDumbbell size={26} />} title="No workouts yet" sub="Tap Start workout to log your first session." />
       ) : (
         <div className="list">
           {recent.map((s) => {
@@ -75,7 +77,10 @@ export function HomeScreen({
                     {names ? names + extra : 'Body weight only'}
                   </div>
                 </div>
-                <span className="pill accent">{s.entries.length} ex</span>
+                <div className="row" style={{ gap: 8 }}>
+                  <span className="pill accent">{s.entries.length} ex</span>
+                  <span className="chev"><IconChevron size={17} /></span>
+                </div>
               </button>
             )
           })}
@@ -88,10 +93,10 @@ export function HomeScreen({
 export function SessionDetail({ id, onBack }: { id: ID; onBack: () => void }) {
   const { mySessions, exerciseById, dispatch } = useApp()
   const s = mySessions.find((x) => x.id === id)
-  if (!s) return <div className="content"><EmptyState icon="🤔" title="Session not found" /></div>
+  if (!s) return <div className="content"><EmptyState icon={<IconHistory size={26} />} title="Session not found" /></div>
   return (
     <div className="content">
-      <button className="btn sm ghost" onClick={onBack} style={{ alignSelf: 'flex-start' }}>← Back</button>
+      <button className="btn sm ghost" onClick={onBack} style={{ alignSelf: 'flex-start' }}><IconArrowLeft size={17} /> Back</button>
       <h2 style={{ margin: '4px 0' }}>{fmtDate(s.date)}</h2>
       {s.bodyweight != null && <div className="pill">Body weight {s.bodyweight}</div>}
       {s.notes && <div className="card tight hint">{s.notes}</div>}

@@ -2,6 +2,7 @@ import { useRef, useState } from 'react'
 import { useApp, buildInitial, STORAGE_KEY } from '../lib/store'
 import { sheetUrl } from '../lib/sheetsSync'
 import type { AppState, Exercise, Session } from '../lib/types'
+import { IconRefresh, IconDownload, IconUpload, IconExternal } from './Icons'
 
 export function SettingsScreen() {
   const { state, dispatch, activeProfile, sync, signInAndSync, syncNow, signOut, connectSheet, importHistory } = useApp()
@@ -87,7 +88,7 @@ export function SettingsScreen() {
           {sync.signedIn ? (
             <div className="row">
               <button className="btn primary grow" onClick={() => syncNow()} disabled={sync.syncing}>
-                {sync.syncing ? 'Syncing…' : '⟳ Sync now'}
+                <IconRefresh size={18} /> {sync.syncing ? 'Syncing…' : 'Sync now'}
               </button>
               <button className="btn ghost" onClick={signOut} disabled={sync.syncing}>Sign out</button>
             </div>
@@ -98,8 +99,8 @@ export function SettingsScreen() {
           )}
 
           {currentSheetId && (
-            <a className="hint" href={sheetUrl(currentSheetId)} target="_blank" rel="noreferrer" style={{ color: 'var(--accent-2)' }}>
-              Open my workout sheet ↗
+            <a className="link" href={sheetUrl(currentSheetId)} target="_blank" rel="noreferrer">
+              Open my workout sheet <IconExternal size={15} />
             </a>
           )}
 
@@ -134,7 +135,7 @@ export function SettingsScreen() {
         records. Do this once on your computer, then <b>Sign in &amp; sync</b> — it'll be on your phone
         after you sign in there.
       </div>
-      <button className="btn" onClick={() => historyRef.current?.click()}>⬆ Import training history file</button>
+      <button className="btn" onClick={() => historyRef.current?.click()}><IconUpload size={18} /> Import training history file</button>
       <input ref={historyRef} type="file" accept="application/json,.json" style={{ display: 'none' }}
         onChange={(e) => { const f = e.target.files?.[0]; if (f) importHistoryFile(f); e.target.value = '' }} />
 
@@ -156,8 +157,8 @@ export function SettingsScreen() {
       {/* ---- Local backup ---- */}
       <div className="section-title">Local backup file</div>
       <div className="row">
-        <button className="btn grow" onClick={exportData}>⬇ Export</button>
-        <button className="btn grow" onClick={() => backupRef.current?.click()}>⬆ Restore</button>
+        <button className="btn grow" onClick={exportData}><IconDownload size={18} /> Export</button>
+        <button className="btn grow" onClick={() => backupRef.current?.click()}><IconUpload size={18} /> Restore</button>
         <input ref={backupRef} type="file" accept="application/json,.json" style={{ display: 'none' }}
           onChange={(e) => { const f = e.target.files?.[0]; if (f) importBackup(f); e.target.value = '' }} />
       </div>

@@ -3,6 +3,7 @@ import type { ID, Routine } from '../lib/types'
 import { useApp, uid } from '../lib/store'
 import { EmptyState } from './common'
 import { ExercisePicker } from './ExercisePicker'
+import { IconPlus, IconRoutine, IconArrowLeft, IconClose } from './Icons'
 
 export function RoutinesScreen({ onStartRoutine }: { onStartRoutine: (routineId: ID) => void }) {
   const { state, dispatch, exerciseById } = useApp()
@@ -20,11 +21,11 @@ export function RoutinesScreen({ onStartRoutine }: { onStartRoutine: (routineId:
     <div className="content">
       <div className="row between">
         <div className="section-title" style={{ margin: 0 }}>Routines</div>
-        <button className="btn sm primary" onClick={newRoutine}>＋ New</button>
+        <button className="btn sm primary" onClick={newRoutine}><IconPlus size={16} /> New</button>
       </div>
       <div className="hint">Templates to start a workout fast. Shared across profiles — you can still add or swap exercises mid-workout.</div>
       {state.routines.length === 0 ? (
-        <EmptyState icon="📋" title="No routines yet" sub="Create one to start workouts in a tap." />
+        <EmptyState icon={<IconRoutine size={26} />} title="No routines yet" sub="Create one to start workouts in a tap." />
       ) : (
         <div className="list">
           {state.routines.map((r) => (
@@ -44,7 +45,7 @@ export function RoutinesScreen({ onStartRoutine }: { onStartRoutine: (routineId:
                 <button
                   className="btn sm ghost danger"
                   onClick={() => { if (confirm(`Delete "${r.name}"?`)) dispatch({ type: 'DELETE_ROUTINE', id: r.id }) }}
-                >✕</button>
+                ><IconClose size={16} /></button>
               </div>
             </div>
           ))}
@@ -76,7 +77,7 @@ function RoutineEditor({ routine, onClose }: { routine: Routine; onClose: () => 
 
   return (
     <div className="content">
-      <button className="btn sm ghost" onClick={onClose} style={{ alignSelf: 'flex-start' }}>← Cancel</button>
+      <button className="btn sm ghost" onClick={onClose} style={{ alignSelf: 'flex-start' }}><IconArrowLeft size={17} /> Cancel</button>
       <label className="field">Routine name
         <input autoFocus value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Push day" />
       </label>
@@ -91,12 +92,12 @@ function RoutineEditor({ routine, onClose }: { routine: Routine; onClose: () => 
             <div className="row" style={{ gap: 4 }}>
               <button className="btn sm ghost" onClick={() => move(i, -1)} disabled={i === 0}>↑</button>
               <button className="btn sm ghost" onClick={() => move(i, 1)} disabled={i === ids.length - 1}>↓</button>
-              <button className="btn sm ghost danger" onClick={() => setIds(ids.filter((x) => x !== id))}>✕</button>
+              <button className="btn sm ghost danger" onClick={() => setIds(ids.filter((x) => x !== id))}><IconClose size={16} /></button>
             </div>
           </div>
         ))}
       </div>
-      <button className="btn ghost" onClick={() => setPicking(true)}>＋ Add exercise</button>
+      <button className="btn ghost" onClick={() => setPicking(true)}><IconPlus size={18} /> Add exercise</button>
       <button className="btn primary big" onClick={save}>Save routine</button>
 
       {picking && (

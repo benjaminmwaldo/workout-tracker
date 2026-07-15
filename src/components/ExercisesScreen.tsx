@@ -5,6 +5,7 @@ import {
   personalRecords, lastPerformance, exerciseTrend, fmtDate, summarizeSets, trimW,
 } from '../lib/stats'
 import { Sparkline, EmptyState } from './common'
+import { IconArrowLeft, IconDumbbell, IconTrend, IconHistory, IconChevron } from './Icons'
 
 export function ExercisesScreen({ onOpen }: { onOpen: (id: ID) => void }) {
   const { state, mySessions } = useApp()
@@ -47,11 +48,14 @@ export function ExercisesScreen({ onOpen }: { onOpen: (id: ID) => void }) {
                   {last ? ` · last ${trimW(last.topSet.weight)}×${last.topSet.reps}` : ' · no history'}
                 </div>
               </div>
-              {count > 0 && <span className="pill">{count}×</span>}
+              <div className="row" style={{ gap: 8 }}>
+                {count > 0 && <span className="pill">{count}×</span>}
+                <span className="chev"><IconChevron size={17} /></span>
+              </div>
             </button>
           )
         })}
-        {list.length === 0 && <EmptyState icon="🔍" title="No matches" />}
+        {list.length === 0 && <EmptyState icon={<IconDumbbell size={26} />} title="No matches" />}
       </div>
     </div>
   )
@@ -75,7 +79,7 @@ export function ExerciseDetail({ id, onBack }: { id: ID; onBack: () => void }) {
     [mySessions, id],
   )
 
-  if (!ex) return <div className="content"><EmptyState icon="🤔" title="Exercise not found" /></div>
+  if (!ex) return <div className="content"><EmptyState icon={<IconDumbbell size={26} />} title="Exercise not found" /></div>
 
   function saveEdit() {
     dispatch({ type: 'UPDATE_EXERCISE', exercise: { ...ex!, name: name.trim() || ex!.name, muscleGroup: group } })
@@ -86,7 +90,7 @@ export function ExerciseDetail({ id, onBack }: { id: ID; onBack: () => void }) {
 
   return (
     <div className="content">
-      <button className="btn sm ghost" onClick={onBack} style={{ alignSelf: 'flex-start' }}>← Back</button>
+      <button className="btn sm ghost" onClick={onBack} style={{ alignSelf: 'flex-start' }}><IconArrowLeft size={17} /> Back</button>
 
       {editing ? (
         <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -138,8 +142,8 @@ export function ExerciseDetail({ id, onBack }: { id: ID; onBack: () => void }) {
 
       {trend.length >= 2 && (
         <div className="card tight">
-          <div className="section-title" style={{ margin: '0 0 6px' }}>Est. 1RM trend</div>
-          <Sparkline values={trend.map((t) => t.e1rm)} color="#f59e0b" />
+          <div className="section-title row" style={{ margin: '0 0 8px', gap: 6, alignItems: 'center' }}><IconTrend size={13} /> Est. 1RM trend</div>
+          <Sparkline values={trend.map((t) => t.e1rm)} color="#c9f24d" />
           <div className="row between hint" style={{ marginTop: 4 }}>
             <span>{fmtDate(trend[0].date)}</span>
             <span>{fmtDate(trend[trend.length - 1].date)}</span>
@@ -149,7 +153,7 @@ export function ExerciseDetail({ id, onBack }: { id: ID; onBack: () => void }) {
 
       <div className="section-title">History</div>
       {history.length === 0 ? (
-        <EmptyState icon="📈" title="No history yet" sub="Log this exercise in a workout to start tracking." />
+        <EmptyState icon={<IconHistory size={26} />} title="No history yet" sub="Log this exercise in a workout to start tracking." />
       ) : (
         <div className="list">
           {history.map((s) => {

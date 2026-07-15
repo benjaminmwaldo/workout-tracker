@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import type { Exercise, ID } from '../lib/types'
 import { useApp, uid } from '../lib/store'
 import { Sheet } from './common'
+import { IconPlus } from './Icons'
 
 const GROUPS = [
   'Chest', 'Back', 'Shoulders', 'Biceps', 'Triceps', 'Legs', 'Calves',
@@ -96,7 +97,7 @@ export function ExercisePicker({
         autoFocus
       />
       <button className="btn primary" style={{ marginTop: 10 }} onClick={() => { setNewName(q); setCreating(true) }}>
-        ＋ Create new exercise{q.trim() ? ` "${q.trim()}"` : ''}
+        <IconPlus size={18} /> Create new exercise{q.trim() ? ` "${q.trim()}"` : ''}
       </button>
       <div className="divider" style={{ margin: '10px 0 4px' }} />
       <div className="list" style={{ maxHeight: '52vh', overflowY: 'auto' }}>
@@ -110,7 +111,7 @@ export function ExercisePicker({
               <div className="li-title">{e.name}</div>
               <div className="li-sub">{e.muscleGroup}{recentRank.has(e.id) ? ' · recent' : ''}</div>
             </div>
-            <span className="chev">＋</span>
+            <span className="chev"><IconPlus size={18} /></span>
           </button>
         ))}
         {results.length === 0 && (

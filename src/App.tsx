@@ -8,6 +8,9 @@ import { ExercisesScreen, ExerciseDetail } from './components/ExercisesScreen'
 import { RoutinesScreen } from './components/RoutinesScreen'
 import { SettingsScreen } from './components/SettingsScreen'
 import { Sheet } from './components/common'
+import {
+  IconHome, IconDumbbell, IconRoutine, IconSettings, IconCloud, IconCloudCheck, IconRefresh, IconChevron,
+} from './components/Icons'
 
 type Tab = 'home' | 'exercises' | 'routines' | 'settings'
 type Sub =
@@ -85,9 +88,12 @@ export default function App() {
   return (
     <div className="app">
       <header className="appbar">
-        <div>
-          <h1>{title}</h1>
-          {!inWorkout && <div className="sub">Pick your weight with confidence</div>}
+        <div className="brand">
+          <div className="logo"><IconDumbbell size={22} /></div>
+          <div>
+            <h1>{title}</h1>
+            {!inWorkout && <div className="sub">Pick your weight with confidence</div>}
+          </div>
         </div>
         <div className="row" style={{ gap: 8 }}>
           {state.profiles.length > 1 && (
@@ -105,14 +111,11 @@ export default function App() {
           )}
           {sync.configured && (
             <button
-              className="btn sm ghost"
+              className={`icon-btn${sync.signedIn ? ' on' : ''}`}
               title={sync.signedIn ? 'Sync now' : 'Sign in to sync'}
               onClick={() => (sync.signedIn ? syncNow() : signInAndSync().catch(() => {}))}
-              style={{ minHeight: 38, padding: '0 10px' }}
             >
-              <span style={{ opacity: sync.syncing ? 0.5 : 1 }}>
-                {sync.syncing ? '⟳' : sync.signedIn ? '☁︎✓' : '☁︎'}
-              </span>
+              {sync.syncing ? <IconRefresh size={19} /> : sync.signedIn ? <IconCloudCheck size={19} /> : <IconCloud size={19} />}
             </button>
           )}
         </div>
@@ -122,10 +125,10 @@ export default function App() {
 
       {!inWorkout && (
         <nav className="tabbar">
-          <TabButton icon="🏠" label="Home" active={tab === 'home' && sub.type === 'none'} onClick={() => { setTab('home'); setSub({ type: 'none' }) }} />
-          <TabButton icon="💪" label="Exercises" active={tab === 'exercises'} onClick={() => { setTab('exercises'); setSub({ type: 'none' }) }} />
-          <TabButton icon="📋" label="Routines" active={tab === 'routines'} onClick={() => { setTab('routines'); setSub({ type: 'none' }) }} />
-          <TabButton icon="⚙️" label="Settings" active={tab === 'settings'} onClick={() => { setTab('settings'); setSub({ type: 'none' }) }} />
+          <TabButton icon={<IconHome />} label="Home" active={tab === 'home' && sub.type === 'none'} onClick={() => { setTab('home'); setSub({ type: 'none' }) }} />
+          <TabButton icon={<IconDumbbell />} label="Exercises" active={tab === 'exercises'} onClick={() => { setTab('exercises'); setSub({ type: 'none' }) }} />
+          <TabButton icon={<IconRoutine />} label="Routines" active={tab === 'routines'} onClick={() => { setTab('routines'); setSub({ type: 'none' }) }} />
+          <TabButton icon={<IconSettings />} label="Settings" active={tab === 'settings'} onClick={() => { setTab('settings'); setSub({ type: 'none' }) }} />
         </nav>
       )}
 
@@ -140,7 +143,7 @@ export default function App() {
                 <div className="li-title">{r.name}</div>
                 <div className="li-sub">{r.exerciseIds.length} exercises</div>
               </div>
-              <span className="chev">→</span>
+              <span className="chev"><IconChevron size={18} /></span>
             </button>
           ))}
         </Sheet>
@@ -149,10 +152,10 @@ export default function App() {
   )
 }
 
-function TabButton({ icon, label, active, onClick }: { icon: string; label: string; active: boolean; onClick: () => void }) {
+function TabButton({ icon, label, active, onClick }: { icon: React.ReactNode; label: string; active: boolean; onClick: () => void }) {
   return (
     <button className={active ? 'active' : ''} onClick={onClick}>
-      <span className="ic">{icon}</span>
+      {icon}
       {label}
     </button>
   )

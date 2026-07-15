@@ -59,12 +59,12 @@ export function Sparkline({ values, color = '#6ea8ff' }: { values: number[]; col
   )
 }
 
-export function EmptyState({ icon, title, sub }: { icon: string; title: string; sub?: string }) {
+export function EmptyState({ icon, title, sub }: { icon: ReactNode; title: string; sub?: string }) {
   return (
     <div className="empty">
-      <div className="big">{icon}</div>
-      <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 4 }}>{title}</div>
-      {sub && <div className="hint">{sub}</div>}
+      <div className="glyph">{icon}</div>
+      <div className="etitle">{title}</div>
+      {sub && <div className="hint" style={{ maxWidth: 300 }}>{sub}</div>}
     </div>
   )
 }

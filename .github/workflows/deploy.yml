@@ -25,9 +25,11 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Build
-        # VITE_BASE (repo path, e.g. /workout-tracker/) is set as an Actions Variable.
+        # Build-time config from Actions Variables. Vite only inlines VITE_* vars
+        # that are present in the environment, so each must be passed explicitly.
         env:
           VITE_BASE: ${{ vars.VITE_BASE }}
+          VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
         run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

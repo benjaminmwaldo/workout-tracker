@@ -3,6 +3,7 @@ import type { Entry, ID, Session, SetEntry } from '../lib/types'
 import { useApp } from '../lib/store'
 import { lastPerformance, personalRecords, fmtDate, trimW } from '../lib/stats'
 import { ExercisePicker } from './ExercisePicker'
+import { IconPlus, IconClose, IconCheck, IconTrophy } from './Icons'
 
 export function WorkoutScreen({ onDone, onCancel }: { onDone: () => void; onCancel: () => void }) {
   const { mySessions, myDraft, exerciseById, dispatch } = useApp()
@@ -77,15 +78,15 @@ export function WorkoutScreen({ onDone, onCancel }: { onDone: () => void; onCanc
                   <div className="ex-name">{ex.name}</div>
                   <div className="ex-group">{ex.muscleGroup}</div>
                 </div>
-                <button className="btn sm ghost" onClick={() => removeEntry(entry.exerciseId)}>✕</button>
+                <button className="icon-btn" onClick={() => removeEntry(entry.exerciseId)}><IconClose size={18} /></button>
               </div>
 
               <div className="stat-row">
                 <div className="stat last">
-                  <div className="label"><span className="dot" style={{ background: 'var(--accent-2)' }} />Last</div>
+                  <div className="label">Last</div>
                   {last ? (
                     <>
-                      <div className="big">{trimW(last.topSet.weight)}×{last.topSet.reps}</div>
+                      <div className="big">{trimW(last.topSet.weight)}<span style={{ color: 'var(--faint)', fontWeight: 600 }}>×{last.topSet.reps}</span></div>
                       <div className="meta">{fmtDate(last.date)}</div>
                     </>
                   ) : (
@@ -93,10 +94,10 @@ export function WorkoutScreen({ onDone, onCancel }: { onDone: () => void; onCanc
                   )}
                 </div>
                 <div className="stat pr">
-                  <div className="label"><span className="dot" style={{ background: 'var(--pr)' }} />Record</div>
+                  <div className="label"><IconTrophy size={12} /> Record</div>
                   {pr.maxWeight ? (
                     <>
-                      <div className="big">{trimW(pr.maxWeight.weight)}×{pr.maxWeight.reps}</div>
+                      <div className="big">{trimW(pr.maxWeight.weight)}<span style={{ opacity: 0.6, fontWeight: 600 }}>×{pr.maxWeight.reps}</span></div>
                       <div className="meta">e1RM {pr.best1RM ? trimW(pr.best1RM.e1rm) : '—'} · {fmtDate(pr.maxWeight.date)}</div>
                     </>
                   ) : (
@@ -114,7 +115,7 @@ export function WorkoutScreen({ onDone, onCancel }: { onDone: () => void; onCanc
           )
         })}
 
-        <button className="btn primary big" onClick={() => setPicking(true)}>＋ Add exercise</button>
+        <button className="btn big" onClick={() => setPicking(true)}><IconPlus size={20} /> Add exercise</button>
 
         <label className="field">
           Body weight (optional)
@@ -135,7 +136,7 @@ export function WorkoutScreen({ onDone, onCancel }: { onDone: () => void; onCanc
         />
 
         <button className="btn primary big" onClick={onDone} style={{ marginTop: 4 }}>
-          Finish workout ✓
+          <IconCheck size={20} /> Finish workout
         </button>
       </div>
 
@@ -208,14 +209,14 @@ function SetEditor({
             onDoubleClick={() => removeSet(i)}
             title="Tap to mark done · double-tap to remove"
           >
-            {s.done ? '✓' : '○'}
+            <IconCheck size={20} />
           </button>
         </div>
       ))}
       <div className="set-actions">
-        <button className="btn sm ghost grow" onClick={addSet}>＋ Add set</button>
+        <button className="btn sm ghost grow" onClick={addSet}><IconPlus size={17} /> Add set</button>
         {entry.sets.length > 1 && (
-          <button className="btn sm ghost" onClick={() => removeSet(entry.sets.length - 1)}>− Remove</button>
+          <button className="btn sm ghost" onClick={() => removeSet(entry.sets.length - 1)}>Remove</button>
         )}
       </div>
     </div>
