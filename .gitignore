@@ -1,0 +1,13 @@
+node_modules
+dist
+dev-dist
+*.local
+.DS_Store
+.vite
+
+# Local personal data — never commit
+import/
+src/data/seed.json
+.env
+.env.local
+*.tsbuildinfo

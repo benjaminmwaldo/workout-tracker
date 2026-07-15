@@ -1,0 +1,29 @@
+{
+  "exercises": [
+    { "id": "bench-press", "name": "Bench press", "muscleGroup": "Chest" },
+    { "id": "incline-db-press", "name": "Incline db press", "muscleGroup": "Chest" },
+    { "id": "pec-fly", "name": "Pec fly", "muscleGroup": "Chest" },
+    { "id": "lat-pulldown", "name": "Lat pulldown", "muscleGroup": "Back" },
+    { "id": "cable-row", "name": "Cable row", "muscleGroup": "Back" },
+    { "id": "pullup", "name": "Pullup", "muscleGroup": "Back" },
+    { "id": "shoulder-press", "name": "Shoulder press", "muscleGroup": "Shoulders" },
+    { "id": "lateral-raise", "name": "Lateral raise", "muscleGroup": "Shoulders" },
+    { "id": "shrugs", "name": "Shrugs", "muscleGroup": "Shoulders" },
+    { "id": "bicep-curl", "name": "Bicep curl", "muscleGroup": "Biceps" },
+    { "id": "preacher-curl", "name": "Preacher curl", "muscleGroup": "Biceps" },
+    { "id": "tricep-pushdown", "name": "Tricep pushdown", "muscleGroup": "Triceps" },
+    { "id": "skullcrushers", "name": "Skullcrushers", "muscleGroup": "Triceps" },
+    { "id": "leg-press", "name": "Leg press", "muscleGroup": "Legs" },
+    { "id": "leg-extension", "name": "Leg extension", "muscleGroup": "Legs" },
+    { "id": "leg-curl", "name": "Leg curl", "muscleGroup": "Legs" },
+    { "id": "squat", "name": "Squat", "muscleGroup": "Legs" },
+    { "id": "standing-calf-raise", "name": "Standing calf raise", "muscleGroup": "Calves" },
+    { "id": "seated-calf-raise", "name": "Seated calf raise", "muscleGroup": "Calves" },
+    { "id": "ab-crunch", "name": "Ab crunch", "muscleGroup": "Core" }
+  ],
+  "routines": [
+    { "id": "rt-push", "name": "Push", "exerciseIds": ["bench-press", "incline-db-press", "shoulder-press", "lateral-raise", "tricep-pushdown", "skullcrushers"] },
+    { "id": "rt-pull", "name": "Pull", "exerciseIds": ["lat-pulldown", "cable-row", "pullup", "bicep-curl", "preacher-curl", "shrugs"] },
+    { "id": "rt-legs", "name": "Legs", "exerciseIds": ["squat", "leg-press", "leg-extension", "leg-curl", "standing-calf-raise", "seated-calf-raise"] }
+  ]
+}
