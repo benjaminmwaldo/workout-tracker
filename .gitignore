@@ -11,3 +11,4 @@ src/data/seed.json
 .env
 .env.local
 *.tsbuildinfo
+STATUS.md
